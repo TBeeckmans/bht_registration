@@ -1,0 +1,5 @@
+name: BHT Registration
+type: module
+description: Registrations for membership
+package: BHT
+core_version_requirement: ^9

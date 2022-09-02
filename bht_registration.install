@@ -1,0 +1,45 @@
+<?php
+
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Creates membership taxonomy terms on module installation.
+ *
+ * @return void
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function bht_registration_install() {
+  $vocabulary = 'membership';
+  $terms = ['Basic member', 'Dedicated member', 'Journal member'];
+  foreach ($terms as $term) {
+    Term::create([
+      'parent' => [],
+      'name' => $term,
+      'vid' => $vocabulary,
+    ])->save();
+  }
+}
+
+/**
+ * Removes membership taxonomy terms on module removal.
+ *
+ * @return void
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function bht_registration_uninstall() {
+  $vocabulary = 'membership';
+  $taxonomyTermManager = Drupal::entityTypeManager()->getStorage('taxonomy_term');
+
+  $query = Drupal::entityQuery('taxonomy_term');
+  $query->condition('vid', $vocabulary);
+  $tids = $query->execute();
+
+  if (!empty($tids)) {
+    $terms = $taxonomyTermManager->loadMultiple($tids);
+    if (!empty($terms)) {
+      $taxonomyTermManager->delete($terms);
+    }
+  }
+}

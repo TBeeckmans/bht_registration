@@ -1,0 +1,12 @@
+{
+    "name": "bht/bht_registration",
+    "type": "drupal-custom-module",
+    "keywords": ["Drupal", "bht_registration"],
+    "authors": [
+      {
+        "name": "Thierry Beeckmans",
+        "email": "webmaster@bht.be"
+      }
+    ],
+    "require": { }
+}
